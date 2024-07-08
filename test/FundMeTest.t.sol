@@ -4,12 +4,14 @@ pragma solidity ^0.8.18;
 import {Test} from "forge-std/Test.sol";
 import {FundMe} from "../src/FundMe.sol";
 import {DeployFundMe} from "../script/DeployFundMe.s.sol";
+import {console} from "forge-std/console.sol";
 
 contract FundMeTest is Test {
     FundMe fundMe;
     address USER = makeAddr("Shoaib");
     uint256 constant SEND_VALUE = 0.1 ether; // 100000000000000000 wei
     uint256 constant STARTING_BALANCE = 10 ether; // 1000000000000000000 wei
+    uint256 constant GAS_PRICE = 1; // 1 wei
 
     function setUp() external {
         // fundMe = new FundMe(0x694AA1769357215DE4FAC081bf1f309aDC325306);
@@ -71,13 +73,16 @@ contract FundMeTest is Test {
 
         // Act
         vm.prank(fundMe.getOwner());
-        fundMe.withdraw();
-
+        fundMe.withdraw(); 
+        
         // Assert
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingFundMeBalance, 0);
-        assertEq(startingFundMeBalance + startingOwnerBalance, endingOwnerBalance);
+        assertEq(
+            startingFundMeBalance + startingOwnerBalance,
+            endingOwnerBalance
+        );
     }
 
     function testWithdrawFromMultipleFunders() public funded {
@@ -85,11 +90,11 @@ contract FundMeTest is Test {
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 1;
 
-        for(uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             // vm.prank new address
             // vm.deal new address
             // address()
-            hoax(address(i), SEND_VALUE);  // Learn about hoax Keywork - https://book.getfoundry.sh/reference/forge-std/hoax
+            hoax(address(i), SEND_VALUE); // Learn about hoax Keywork - https://book.getfoundry.sh/reference/forge-std/hoax
             fundMe.fund{value: SEND_VALUE}();
         }
 
@@ -103,6 +108,9 @@ contract FundMeTest is Test {
 
         // Assert SetUp
         assertEq(address(fundMe).balance, 0);
-        assert(startingFundMeBalance + startingOwnerBalance == fundMe.getOwner().balance);
+        assert(
+            startingFundMeBalance + startingOwnerBalance ==
+                fundMe.getOwner().balance
+        );
     }
 }
