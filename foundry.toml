@@ -3,7 +3,13 @@ src = "src"
 out = "out"
 libs = ["lib"]
 remappings = [
-    "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/"
+    "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
 ]
+ffi = true
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+# FFI allows your smart contract to call external libraries or contracts, essentially "reaching out" to code outside of your contract's scope. This enables interactions with other contracts, libraries, or even off-chain services.
+# By setting ffi = true, you're telling Foundry to allow your contract to use this feature, enabling more flexibility and possibilities in your contract's logic.
+# In short, ffi = true unlocks the ability for your contract to interact with external code, expanding its capabilities!################## NOTE ##################
+# In Foundry, ffi = true in the foundry.toml file enables the Foreign Function Interface (FFI) feature.
