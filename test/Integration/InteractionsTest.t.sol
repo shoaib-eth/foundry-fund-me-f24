@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.19;
 
 import {Test} from "forge-std/Test.sol";
 import {FundMe} from "../../src/FundMe.sol";
 import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
-import {console} from "forge-std/console.sol";
 import {FundFundMe, WithdrawFundMe} from "../../script/Interactions.s.sol";
 
 contract InteractionsTest is Test {
     FundMe fundMe;
+
     address USER = makeAddr("Shoaib");
     uint256 constant SEND_VALUE = 0.1 ether; // 100000000000000000 wei
     uint256 constant STARTING_BALANCE = 10 ether; // 1000000000000000000 wei
