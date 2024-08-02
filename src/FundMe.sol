@@ -38,7 +38,6 @@ contract FundMe {
     }
 
     modifier onlyOwner() {
-        // require(msg.sender == owner);
         if (msg.sender != i_owner) revert FundMe__NotOwner();
         _;
     }
@@ -71,12 +70,6 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
-        // // transfer
-        // payable(msg.sender).transfer(address(this).balance);
-
-        // // send
-        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        // require(sendSuccess, "Send failed");
 
         // call
         (bool callSuccess, ) = payable(msg.sender).call{
@@ -122,12 +115,3 @@ contract FundMe {
         return i_owner;
     }
 }
-
-// Concepts we didn't cover yet (will cover in later sections)
-// 1. Enum
-// 2. Events
-// 3. Try / Catch
-// 4. Function Selector
-// 5. abi.encode / decode
-// 6. Hash with keccak256
-// 7. Yul / Assembly
